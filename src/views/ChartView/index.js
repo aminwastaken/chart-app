@@ -3,6 +3,7 @@ import { useAsync } from 'react-async'
 import { useState, useEffect } from 'react'
 import BarChart from '../../components/BarChart'
 import sortNearEarthObjects from '../../utils/sortNearEarthObjects'
+import LoadingScreen from '../../components/LoadingScreen'
 
 const ChartView = () => {
   const { data, error, isLoading } = useAsync({ promiseFn: loadData }) // getting json data from async function
@@ -14,7 +15,7 @@ const ChartView = () => {
   ]
   useEffect(
     () => {
-      if (isLoading) setOutput(<p>Getting data from the API ...</p>) // this loading screen is displayed as long as the data is not ready
+      if (isLoading) setOutput(<LoadingScreen title="getting data" />) // this loading screen is displayed as long as the data is not ready
       if (error) setOutput(<h1>Something went wrong</h1>) // the error page the user gets when the requests fails
       if (data) {
         sortNearEarthObjects(data.near_earth_objects) // sorting near earth object by average diameter

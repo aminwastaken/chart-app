@@ -1,4 +1,5 @@
 import Chart from 'react-google-charts'
+import LoadingScreen from '../LoadingScreen'
 
 const BarChart = ({ header, body, vTitle, hTitle }) => {
   const data = [header].concat(body)
@@ -9,7 +10,7 @@ const BarChart = ({ header, body, vTitle, hTitle }) => {
       height={chartHeight}
       chartArea={{ width: '100%', height: '100%' }}
       chartType="BarChart"
-      loader={<div>Loading Chart ...</div>}
+      loader={<LoadingScreen title="building chart" />}
       data={data}
       options={{
         colors: ['#4384F3', '#D84537'],
