@@ -2,15 +2,17 @@ import Chart from 'react-google-charts'
 
 const BarChart = ({ header, body, vTitle, hTitle }) => {
   const data = [header].concat(body)
-  const chartHeight = data.length * 90 + 'px'
+  const chartHeight = data.length * 50 + 'px'
   return (
     <Chart
       width={'1400px'}
       height={chartHeight}
+      chartArea={{ width: '100%', height: '100%' }}
       chartType="BarChart"
       loader={<div>Loading Chart ...</div>}
       data={data}
       options={{
+        colors: ['#4384F3', '#D84537'],
         vAxis: { title: vTitle },
         hAxis: { title: hTitle, minValue: 0 },
         legend: 'top',
