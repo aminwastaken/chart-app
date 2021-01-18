@@ -5,16 +5,16 @@ import BarChart from '../../components/BarChart'
 import sortNearEarthObjects from '../../utils/sortNearEarthObjects'
 import LoadingScreen from '../../components/LoadingScreen'
 import PlanetSelector from '../../components/PlanetSelector'
+import Table from '../../components/Table'
+import DataDisplaySelector from '../../components/dataDisplaySelector'
+import { CSVLink, CSVDownload } from 'react-csv'
 
 const ChartView = () => {
   const { data, error, isLoading } = useAsync({ promiseFn: loadData }) // getting json data from async function
   const [output, setOutput] = useState('') // the output displayed on the page
   const [planet, setPlanet] = useState('All')
-  const chartTitle = [
-    'City',
-    'Min estimated Diameter',
-    'Max estimated Diameter',
-  ]
+  const [display, setDisplay] = useState('Chart')
+  const title = ['NEO Name', 'Min estimated Diameter', 'Max estimated Diameter']
 
   useEffect(() => {
     if (isLoading) setOutput(<LoadingScreen title="getting data" />) // this loading screen is displayed as long as the data is not ready
@@ -46,19 +46,34 @@ const ChartView = () => {
         item.estimated_diameter.kilometers.estimated_diameter_min,
         item.estimated_diameter.kilometers.estimated_diameter_max,
       ])
-      setOutput(
-        <>
-          <PlanetSelector onChange={(value) => setPlanet(value)} />
-          <BarChart
-            header={chartTitle}
-            body={chartBody}
-            vTitle="NEO Name"
-            hTitle="Min estimated Diameter"
-          />
-        </>
-      )
+      setOutput([
+        <PlanetSelector onChange={(value) => setPlanet(value)} />,
+        <DataDisplaySelector onChange={(value) => setDisplay(value)} />,
+        <CSVLink data={[title].concat(chartBody)}>Download CSV file</CSVLink>,
+      ])
+      if (display === 'Table') {
+        setOutput((output) => (
+          <>
+            {output}
+            <Table title={title} body={chartBody} />
+          </>
+        ))
+      } else if (display === 'Chart') {
+        setOutput((output) => (
+          <>
+            {output}
+            <BarChart
+              header={title}
+              body={chartBody}
+              vTitle="NEO Name"
+              hTitle="Min estimated Diameter"
+            />
+          </>
+        ))
+      }
     }
   }, [
+    display, // can be chart or table
     planet, // filtering data based on the planet
     data, // the useEffect function gets called whenever 'data', error' and 'isLoading' are updated
     error,
