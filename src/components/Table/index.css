@@ -1,0 +1,23 @@
+.table-wrapper {
+  margin-top: 150px;
+}
+table {
+  width: 100%;
+}
+
+tr {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: black 1px solid;
+  min-width: 200px;
+}
+
+td,
+th {
+  text-align: left;
+  min-width: 200px;
+}
+
+.table-item-id {
+  width: 20px;
+}
