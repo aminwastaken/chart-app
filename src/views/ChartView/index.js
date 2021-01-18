@@ -7,6 +7,7 @@ import LoadingScreen from '../../components/LoadingScreen'
 import PlanetSelector from '../../components/PlanetSelector'
 import Table from '../../components/Table'
 import DataDisplaySelector from '../../components/dataDisplaySelector'
+import { CSVLink, CSVDownload } from 'react-csv'
 
 const ChartView = () => {
   const { data, error, isLoading } = useAsync({ promiseFn: loadData }) // getting json data from async function
@@ -48,6 +49,7 @@ const ChartView = () => {
       setOutput([
         <PlanetSelector onChange={(value) => setPlanet(value)} />,
         <DataDisplaySelector onChange={(value) => setDisplay(value)} />,
+        <CSVLink data={[title].concat(chartBody)}>Download CSV file</CSVLink>,
       ])
       if (display === 'Table') {
         setOutput((output) => (
